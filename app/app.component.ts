@@ -25,21 +25,18 @@ export class AppComponent {
     }
 
     changeListener($event) : void {
-        var file: File = $event.target.files[0]; 
+        var file: File = $event.target.files[0];
+        if (!file) return;
+
         var reader: FileReader = new FileReader();
         var self = this;
         reader.onloadend = function(e) {
             self.tokens = [];
             self.scanner = new Scanner(self.afd, reader.result);
-            // self.scanner = new Scanner(self.afd, "//abc\n abc  //error");
         };
 
         reader.readAsText(file);
     }
-
-    // getTokenType(type: string): string {
-    //     return type.toLowerCase().replace(/[0-9]/g, '');
-    // }
 
     getTokenValue(token: Token): string {
         return (this.scanner.valueMapper.get(token.type))[token.value];
