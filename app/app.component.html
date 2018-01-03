@@ -1,0 +1,59 @@
+<div class="navbar">
+    <div class="container-fluid">
+        <div class="collapse navbar-collapse">
+            <ul class="nav navbar-nav">
+                <li>
+                    <input type=file class="file" (change)="changeListener($event)" />
+                </li>
+                <li *ngIf="scanner">
+                    <button class="btn btn-primary" (click)="all()"> All </button>
+                </li>
+                <li *ngIf="scanner">
+                    <button class="btn btn-primary" (click)="getToken()"> Token </button>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<hr />
+
+<div class="col-md-6" *ngIf="tokens.length > 0">
+    <div class="col-md-12"> <h2> Tokens table </h2> </div>
+    <table class="table-striped table-bordered" style="width: 100%">
+        <thead> 
+            <th> Nr. </th>
+            <th> Position </th>
+            <th> Type </th>
+            <th> Value (Position in string table) </th>
+        </thead>
+        <tbody>
+            <tr *ngFor="let token of tokens; let index = index;"  [class.text-danger]="token.hidden">
+                <td> {{ index + 1 }} </td> 
+                <td> {{ token.codePos }} </td>
+                <td> {{ token.type }} </td>
+                <td> {{ getTokenValue(token) }} ({{ token.value }}) </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div class="col-md-6" *ngIf="tokens.length > 0">
+    <div class="col-md-12"> <h2> Strings table </h2> </div>
+    <table class="table-striped table-bordered" style="width: 100%">
+        <thead> 
+            <th> Key </th>
+            <th> Values </th>
+        </thead>
+        <tbody>
+            <tr *ngFor="let obj of scanner.valueMapper | keys; let index = index;">
+                <td> {{ obj.key }} </td>
+                <td> 
+                    <p *ngFor="let val of obj.values; let index = index"> 
+                        {{ index + ". " + val }}
+                    </p>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
